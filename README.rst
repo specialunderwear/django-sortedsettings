@@ -1,4 +1,4 @@
-Django-sortsettings
+Django-sortedsettings
 -------------------
 
 A script that outputs all the values in your settings.py, but ordered
