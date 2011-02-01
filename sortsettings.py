@@ -9,9 +9,10 @@ sys.path.append(os.getcwd())
 SETTING_PATTERN_LOOSE = re.compile(r'^[_0-9A-Z]+')
 SETTING_PATTERN_STRICT = re.compile(r'^[_0-9A-Z]+$')
 
-def main():
-    if len(sys.argv) > 1:
-        module_name = sys.argv[1]
+def main(argv=None):
+    argv = argv or sys.argv
+    if len(argv) > 1:
+        module_name = argv[1]
         __import__(module_name, globals(), locals(), [], -1)
         settings_module = sys.modules[module_name]
     else:
