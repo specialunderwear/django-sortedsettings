@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Django-sortedsettings
--------------------
+---------------------
 
 A script that outputs all the values in your settings.py, but ordered
 alphabetically.
@@ -16,7 +16,7 @@ or::
 
     sortsettings.py settings.someothermodule
 
-This will dump the settings/someothermodule.py module sorted
+This will dump the settings/someothermodule.py module sorted.
 """
 from distutils.core import setup
 
