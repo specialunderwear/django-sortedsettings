@@ -1,4 +1,24 @@
 #! /usr/bin/env python
+"""
+Django-sortedsettings
+-------------------
+
+A script that outputs all the values in your settings.py, but ordered
+alphabetically.
+
+usage::
+
+    sortsettings.py
+
+This will dump the settings.py module sorted
+
+or::
+
+    sortsettings.py settings.someothermodule
+
+This will dump the settings/someothermodule.py module sorted
+"""
+
 import sys
 import getopt
 import re
@@ -6,13 +26,17 @@ import os
 
 sys.path.append(os.getcwd())
 
-SETTING_PATTERN_LOOSE = re.compile(r'^[_0-9A-Z]+')
-SETTING_PATTERN_STRICT = re.compile(r'^[_0-9A-Z]+$')
+_SETTING_PATTERN_LOOSE = re.compile(r'^[_0-9A-Z]+')
+_SETTING_PATTERN_STRICT = re.compile(r'^[_0-9A-Z]+$')
 
 def main(argv=None):
     argv = argv or sys.argv
     if len(argv) > 1:
         module_name = argv[1]
+        if module_name.endswith('help'):
+            help('sortsettings')
+            exit(0)
+        
         __import__(module_name, globals(), locals(), [], -1)
         settings_module = sys.modules[module_name]
     else:
@@ -20,7 +44,7 @@ def main(argv=None):
     
     group = None
     
-    for key in sorted(filter(SETTING_PATTERN_STRICT.match, dir(settings_module))):
+    for key in sorted(filter(_SETTING_PATTERN_STRICT.match, dir(settings_module))):
     
         active = False
         code_buffer = ""
@@ -30,7 +54,7 @@ def main(argv=None):
             code_buffer = ""
             for line in settings_file:
                 # when a new settings block is found, reset buffer.
-                if SETTING_PATTERN_LOOSE.match(line):
+                if _SETTING_PATTERN_LOOSE.match(line):
                     active = False
             
                 # if the key is found, activate output of settings block
